@@ -64,9 +64,19 @@ public:
             return static_cast<difference_type>(idx) - static_cast<difference_type>(o.idx);
         }
 
-        bool operator==(const iterator &o) const { return p == o.p && idx == o.idx; }
+        bool operator==(const iterator &o) const {
+            if (p != o.p) return false;
+            if (!p) return true;
+            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
+            return idx == o.idx;
+        }
         bool operator!=(const iterator &o) const { return !(*this == o); }
-        bool operator<(const iterator &o) const { if (p != o.p) throw invalid_iterator(); return idx < o.idx; }
+        bool operator<(const iterator &o) const {
+            if (p != o.p) throw invalid_iterator();
+            if (!p) return false;
+            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
+            return idx < o.idx;
+        }
         bool operator>(const iterator &o) const { return o < *this; }
         bool operator<=(const iterator &o) const { return !(o < *this); }
         bool operator>=(const iterator &o) const { return !(*this < o); }
@@ -115,9 +125,19 @@ public:
             return static_cast<difference_type>(idx) - static_cast<difference_type>(o.idx);
         }
 
-        bool operator==(const const_iterator &o) const { return p == o.p && idx == o.idx; }
+        bool operator==(const const_iterator &o) const {
+            if (p != o.p) return false;
+            if (!p) return true;
+            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
+            return idx == o.idx;
+        }
         bool operator!=(const const_iterator &o) const { return !(*this == o); }
-        bool operator<(const const_iterator &o) const { if (p != o.p) throw invalid_iterator(); return idx < o.idx; }
+        bool operator<(const const_iterator &o) const {
+            if (p != o.p) throw invalid_iterator();
+            if (!p) return false;
+            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
+            return idx < o.idx;
+        }
         bool operator>(const const_iterator &o) const { return o < *this; }
         bool operator<=(const const_iterator &o) const { return !(o < *this); }
         bool operator>=(const const_iterator &o) const { return !(*this < o); }
