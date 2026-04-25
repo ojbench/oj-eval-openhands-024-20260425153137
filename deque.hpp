@@ -65,7 +65,7 @@ public:
         }
 
         bool operator==(const iterator &o) const {
-            if (p != o.p) return false;
+            if (p != o.p) throw invalid_iterator();
             if (!p) return true;
             if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
             return idx == o.idx;
@@ -126,7 +126,7 @@ public:
         }
 
         bool operator==(const const_iterator &o) const {
-            if (p != o.p) return false;
+            if (p != o.p) throw invalid_iterator();
             if (!p) return true;
             if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
             return idx == o.idx;
