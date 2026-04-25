@@ -195,6 +195,7 @@ public:
     iterator erase(const_iterator first, const_iterator last) {
         if (first.p != this || last.p != this || first.ver_snap != ver || last.ver_snap != ver) throw invalid_iterator();
         if (first.idx > last.idx || last.idx > a.size()) throw index_out_of_bound();
+        if (first.idx == last.idx) return iterator(this, first.idx);
         auto next_idx = first.idx;
         a.erase(a.begin() + static_cast<storage_t::difference_type>(first.idx),
                 a.begin() + static_cast<storage_t::difference_type>(last.idx));
