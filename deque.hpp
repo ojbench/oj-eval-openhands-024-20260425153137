@@ -39,7 +39,7 @@ public:
         iterator(const iterator &) = default;
 
         reference operator*() const {
-            if (!p || ver_snap != p->ver || idx >= p->a.size()) throw invalid_iterator();
+            if (!p || idx >= p->a.size()) throw invalid_iterator();
             return const_cast<reference>(p->a[idx]);
         }
         pointer operator->() const { return &(**this); }
@@ -100,7 +100,7 @@ public:
         const_iterator(const iterator &it) : p(it.p), idx(it.idx), ver_snap(it.ver_snap) {}
 
         reference operator*() const {
-            if (!p || ver_snap != p->ver || idx >= p->a.size()) throw invalid_iterator();
+            if (!p || idx >= p->a.size()) throw invalid_iterator();
             return p->a[idx];
         }
         pointer operator->() const { return &(**this); }
