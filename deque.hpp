@@ -168,9 +168,17 @@ public:
     reference operator[](const size_t &pos) { return a[pos]; }
     const_reference operator[](const size_t &pos) const { return a[pos]; }
 
+    reference front() {
+        if (a.empty()) throw index_out_of_bound();
+        return a.front();
+    }
     const_reference front() const {
         if (a.empty()) throw index_out_of_bound();
         return a.front();
+    }
+    reference back() {
+        if (a.empty()) throw index_out_of_bound();
+        return a.back();
     }
     const_reference back() const {
         if (a.empty()) throw index_out_of_bound();
