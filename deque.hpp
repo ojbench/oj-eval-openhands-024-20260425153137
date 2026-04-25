@@ -128,6 +128,18 @@ public:
     deque &operator=(const deque &) = default;
     ~deque() = default;
 
+    friend bool operator==(const deque &lhs, const deque &rhs) {
+        if (lhs.a.size() != rhs.a.size()) return false;
+        for (size_t i = 0; i < lhs.a.size(); ++i) if (!(lhs.a[i] == rhs.a[i])) return false;
+        return true;
+    }
+    friend bool operator!=(const deque &lhs, const deque &rhs) { return !(lhs == rhs); }
+
+    void swap(deque &other) noexcept {
+        a.swap(other.a);
+        ++ver; ++other.ver;
+    }
+
     reference at(const size_t &pos) {
         if (pos >= a.size()) throw index_out_of_bound();
         return a[pos];
