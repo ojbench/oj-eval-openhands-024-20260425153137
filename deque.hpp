@@ -50,7 +50,7 @@ public:
         iterator operator--(int) { iterator t = *this; --(*this); return t; }
 
         iterator &operator+=(difference_type d) {
-            if (!p || ver_snap != p->ver) throw invalid_iterator();
+            if (!p) throw invalid_iterator();
             difference_type ni = static_cast<difference_type>(idx) + d;
             if (ni < 0 || static_cast<size_t>(ni) > p->a.size()) throw invalid_iterator();
             idx = static_cast<size_t>(ni);
@@ -60,21 +60,19 @@ public:
         iterator operator+(difference_type d) const { iterator t = *this; t += d; return t; }
         iterator operator-(difference_type d) const { iterator t = *this; t -= d; return t; }
         difference_type operator-(const iterator &o) const {
-            if (p != o.p || !p || ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
+            if (p != o.p || !p) throw invalid_iterator();
             return static_cast<difference_type>(idx) - static_cast<difference_type>(o.idx);
         }
 
         bool operator==(const iterator &o) const {
-            if (p != o.p) throw invalid_iterator();
+            if (p != o.p) return false;
             if (!p) return true;
-            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
             return idx == o.idx;
         }
         bool operator!=(const iterator &o) const { return !(*this == o); }
         bool operator<(const iterator &o) const {
             if (p != o.p) throw invalid_iterator();
             if (!p) return false;
-            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
             return idx < o.idx;
         }
         bool operator>(const iterator &o) const { return o < *this; }
@@ -111,7 +109,7 @@ public:
         const_iterator operator--(int) { const_iterator t = *this; --(*this); return t; }
 
         const_iterator &operator+=(difference_type d) {
-            if (!p || ver_snap != p->ver) throw invalid_iterator();
+            if (!p) throw invalid_iterator();
             difference_type ni = static_cast<difference_type>(idx) + d;
             if (ni < 0 || static_cast<size_t>(ni) > p->a.size()) throw invalid_iterator();
             idx = static_cast<size_t>(ni);
@@ -121,7 +119,7 @@ public:
         const_iterator operator+(difference_type d) const { const_iterator t = *this; t += d; return t; }
         const_iterator operator-(difference_type d) const { const_iterator t = *this; t -= d; return t; }
         difference_type operator-(const const_iterator &o) const {
-            if (p != o.p || !p || ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
+            if (p != o.p || !p) throw invalid_iterator();
             return static_cast<difference_type>(idx) - static_cast<difference_type>(o.idx);
         }
 
@@ -135,7 +133,6 @@ public:
         bool operator<(const const_iterator &o) const {
             if (p != o.p) throw invalid_iterator();
             if (!p) return false;
-            if (ver_snap != p->ver || o.ver_snap != o.p->ver) throw invalid_iterator();
             return idx < o.idx;
         }
         bool operator>(const const_iterator &o) const { return o < *this; }
